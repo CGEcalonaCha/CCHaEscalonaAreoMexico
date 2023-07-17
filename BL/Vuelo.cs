@@ -16,7 +16,7 @@ namespace BL
             {
                 using (DL.CescalonaAeroMexicoContext context = new DL.CescalonaAeroMexicoContext())
                 {
-                    var RowsAfected = context.Vuelos.FromSqlRaw($"VuelosGetAll'{vuelo.NumeroVuelo}' ").ToList();
+                    var RowsAfected = context.Vuelos.FromSqlRaw($"VuelosGetAll'{vuelo.FechaSalida}' ").ToList();
 
                     result.Objects = new List<object>();
 

@@ -35,21 +35,6 @@ namespace SL1.Controllers
                 return NotFound(result);
             }
         }
-        [HttpGet]
-        [Route("api/Usuario/UsuarioGetByUserName/{UserName}")]
-        public IActionResult GetById(string userName)
-        {
-
-            ML.Result result = BL.Usuario.GetByUserName(userName);
-
-            if (result.Correct)
-            {
-                return Ok(result);
-            }
-            else
-            {
-                return NotFound(result);
-            }
-        }
+        
     }
 }

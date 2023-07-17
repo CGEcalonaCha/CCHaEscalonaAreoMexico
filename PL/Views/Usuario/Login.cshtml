@@ -1,0 +1,37 @@
+﻿@model ML.Usuario
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    @* <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>*@
+
+    <link rel="stylesheet" href="/css/StyleSheet.css">
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+</head>
+<body>
+    <div class="container">
+        @using (Html.BeginForm("Login", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+            <div class="logo"></div>
+            <div class="login-block">
+                <h1>Login</h1>
+                @Html.LabelFor(model => model.UserName)
+                <div class=" = input-group">
+                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
+                </div>
+                @Html.LabelFor(model => model.Contrasena)
+                <div class=" = input-group">
+                    @Html.TextBoxFor(model => model.Contrasena, new { @class = "center", @type="contrasena" })
+                </div>
+              
+                <input type="submit" value="Guardar" class="btn btn-success" />
+            </div>
+        }
+    </div>
+</body>
+</html>

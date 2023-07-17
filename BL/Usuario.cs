@@ -53,7 +53,7 @@ namespace BL
             {
                 using (DL.CescalonaAeroMexicoContext context = new DL.CescalonaAeroMexicoContext())
                 {
-                    int RowsAfected = context.Database.ExecuteSqlRaw($"UsuarioAdd '{usuario.Nombre}', '{usuario.ApellidoPaterno}', '{usuario.ApellidoMaterno}', '{usuario.Email}', '{usuario.UserName}, '{usuario.Contrasena}'");
+                    int RowsAfected = context.Database.ExecuteSqlRaw($"UsuarioAdd '{usuario.Nombre}', '{usuario.ApellidoPaterno}', '{usuario.ApellidoMaterno}', '{usuario.Email}', '{usuario.UserName}', '{usuario.Contrasena}'");
 
                     if (RowsAfected > 0)
                     {
@@ -87,15 +87,10 @@ namespace BL
                     if (objUsuario != null)
                     {
                         ML.Usuario usuario = new ML.Usuario();
-                        usuario.IdUsuario = objUsuario.IdUsuario;
-                        usuario.Nombre = objUsuario.Nombre;
-                        usuario.ApellidoPaterno = objUsuario.ApellidoPaterno;
-                        usuario.ApellidoMaterno = objUsuario.ApellidoMaterno;
                         usuario.UserName = objUsuario.UserName;
-                        usuario.Email = objUsuario.Email;
                         usuario.Contrasena = objUsuario.Contrasena;
 
-
+                        
 
                         result.Object = usuario; //boxing
 

@@ -1,92 +1,40 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Cryptography;
 
 namespace PL.Controllers
 {
     public class UsuarioController : Controller
     {
-        private IConfiguration configuration;
-        public UsuarioController(IConfiguration _configuration)
-        {
-            configuration = _configuration;
-        }
         [HttpGet]
-        public ActionResult GetAll()
+        public ActionResult Login()
         {
-            ML.Usuario usuario = new ML.Usuario();
-            usuario.Usuarios = new List<object>();
-
-
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(configuration["WebApi"]);
-
-                var responseTask = client.GetAsync("Usuario/GetAll");
-                responseTask.Wait();
-
-                var result = responseTask.Result;
-
-
-                if (result.IsSuccessStatusCode)
-                {
-                    var readTask = result.Content.ReadAsAsync<ML.Result>();
-                    readTask.Wait();
-
-                    foreach (var resultItem in readTask.Result.Objects)
-                    {
-                        ML.Usuario resultItemList = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Usuario>(resultItem.ToString());
-                        usuario.Usuarios.Add(resultItemList);
-                    }
-                }
-            }
-
-            return View(usuario);
-        }
-        [HttpGet]
-        public IActionResult Form(int? idUsuario)
-        {
-            ML.Usuario usuario = new ML.Usuario();
-
-
-            if (idUsuario == null)
-            {
-                return View(usuario);
-
-            }
-            else
-            {
-
-                return View(usuario);
-            }
+            return View();
         }
         [HttpPost]
-        public IActionResult Form(ML.Usuario usuario)
+        public ActionResult Login(string userName, string contrasena)
         {
-            ML.Result result = new ML.Result();
-            if (usuario.IdUsuario == 0)
+            ML.Result result = BL.Usuario.GetByUserName(userName);
+
+            if (result.Correct)//si el usuario existe
             {
-                using (var client = new HttpClient())
+                ML.Usuario usuario = (ML.Usuario)result.Object;
+                if (contrasena == usuario.Contrasena)
                 {
-                    client.BaseAddress = new Uri(configuration["WebApi"]);
+                    return RedirectToAction("Index", "Home");
 
-                    //HTTP POST
-                    var postTask = client.PostAsJsonAsync<ML.Usuario>("Usuario/Add", usuario);
-                    postTask.Wait();
-
-                    var libroresult = postTask.Result;
-                    if (libroresult.IsSuccessStatusCode)
-                    {
-                        ViewBag.Message = "Se agrego correctamente el libro";
-                    }
-                    else
-                    {
-                        ViewBag.Message = "Ocurrio un error al agregar el libro";
-                    }
+                    
+                }
+                else
+                {
+                    ViewBag.Mensaje = "Contraseña invalida";
+                    return PartialView("ModalLogin");
                 }
             }
             else
             {
+                ViewBag.Mensaje = "Usuario invalido";
+                return PartialView("ModalLogin");
             }
-            return View("Modal");
         }
     }
 }
