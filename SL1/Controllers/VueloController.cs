@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace SL1.Controllers
 {
@@ -6,35 +8,21 @@ namespace SL1.Controllers
     {
         [HttpGet]
         [Route("api/Vuelo/GetAll")]
-        public IActionResult GetAll()
+        public IActionResult GetAll(DateTime FechaInicio, DateTime FechaFinal)
         {
-            ML.Vuelo vuelo = new ML.Vuelo();
 
-            ML.Result result = BL.Vuelo.GetAll(vuelo);
-
-            if (result.Correct)
-            {
-                return Ok(result);
-            }
-            else
-            {
-                return NotFound(result);
-            }
-        }
-        [HttpPost]
-        [Route("api/Vuelo/Add")]
-        public IActionResult Add([FromBody] ML.Vuelo vuelo)
-        {
-            ML.Result result = BL.Vuelo.Add(vuelo);
-
+            ML.Result result = BL.Vuelo.GetAll(FechaInicio, FechaFinal);
             if (result.Correct)
             {
                 return Ok(result.Objects);
             }
             else
             {
-                return NotFound(result);
+                return BadRequest(result);
             }
+            //return View();
         }
+       
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace SL1.Controllers
 {
@@ -35,6 +36,33 @@ namespace SL1.Controllers
                 return NotFound(result);
             }
         }
-        
+        [HttpGet]
+        [Route("api/Usuario/GetByUserName/{Usuario}/{Password}")]
+        public IActionResult GetByUserName(string Usuario, string Contrasena)
+        {
+
+            ML.Result result = BL.Usuario.GetByUserName(Usuario);
+            if (result.Correct)
+            {
+                ML.Usuario usuario = (ML.Usuario)result.Object;
+
+                if (Contrasena == usuario.Contrasena)
+                {
+                    result.ErrorMessage = "Autorice";
+                    return Ok(result.ErrorMessage);
+
+                }
+                else
+                {
+                    result.ErrorMessage = "No Autorice";
+                    return NotFound(result.ErrorMessage);
+                }
+            }
+            else
+            {
+                ViewBag.Mensaje = "Usuario no existe";
+                return PartialView("ModalLogin");
+            }
+        }
     }
 }

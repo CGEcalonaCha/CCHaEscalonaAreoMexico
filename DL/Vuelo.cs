@@ -13,7 +13,7 @@ public partial class Vuelo
 
     public decimal? Destino { get; set; }
 
-    public string? FechaSalida { get; set; }
+    public DateTime? FechaSalida { get; set; }
 
     public virtual ICollection<UsuarioVuelo> UsuarioVuelos { get; set; } = new List<UsuarioVuelo>();
 }

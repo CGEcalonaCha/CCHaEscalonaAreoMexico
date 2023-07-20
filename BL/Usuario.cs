@@ -28,7 +28,7 @@ namespace BL
                             usuario.IdUsuario = objUsuario.IdUsuario;
                             usuario.Nombre = objUsuario.Nombre;
                             usuario.ApellidoPaterno = objUsuario.ApellidoPaterno;
-                            usuario.ApellidoMaterno = objUsuario.ApellidoMaterno;
+                            //usuario.ApellidoMaterno = objUsuario.ApellidoMaterno;
                             usuario.UserName = objUsuario.UserName;
                             usuario.Email = objUsuario.Email;
                             usuario.Contrasena = objUsuario.Contrasena;

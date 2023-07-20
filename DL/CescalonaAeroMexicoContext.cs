@@ -15,6 +15,8 @@ public partial class CescalonaAeroMexicoContext : DbContext
     {
     }
 
+    public virtual DbSet<Pasajero> Pasajeros { get; set; }
+
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
     public virtual DbSet<UsuarioVuelo> UsuarioVuelos { get; set; }
@@ -27,6 +29,23 @@ public partial class CescalonaAeroMexicoContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Pasajero>(entity =>
+        {
+            entity.HasKey(e => e.IdPasajero).HasName("PK__Pasajero__78E232CBBBD1C0BE");
+
+            entity.ToTable("Pasajero");
+
+            entity.Property(e => e.ApellidoMaterno)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.ApellidoPaterno)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.NumeroPasajero)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+        });
+
         modelBuilder.Entity<Usuario>(entity =>
         {
             entity.HasKey(e => e.IdUsuario).HasName("PK__Usuario__5B65BF971E2A4A10");
@@ -55,25 +74,27 @@ public partial class CescalonaAeroMexicoContext : DbContext
 
         modelBuilder.Entity<UsuarioVuelo>(entity =>
         {
-            entity.HasKey(e => e.IdUsuarioVuelos).HasName("PK__UsuarioV__BDB0D95596E87822");
+            entity.HasKey(e => e.IdUsuarioVuelos).HasName("PK__UsuarioV__BDB0D9553C889C48");
+
+            entity.HasOne(d => d.IdPasajeroNavigation).WithMany(p => p.UsuarioVuelos)
+                .HasForeignKey(d => d.IdPasajero)
+                .HasConstraintName("FK__UsuarioVu__IdPas__4D94879B");
 
             entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.UsuarioVuelos)
                 .HasForeignKey(d => d.IdUsuario)
-                .HasConstraintName("FK__UsuarioVu__IdUsu__1BFD2C07");
+                .HasConstraintName("FK__UsuarioVu__IdUsu__4BAC3F29");
 
             entity.HasOne(d => d.IdVuelosNavigation).WithMany(p => p.UsuarioVuelos)
                 .HasForeignKey(d => d.IdVuelos)
-                .HasConstraintName("FK__UsuarioVu__IdVue__1CF15040");
+                .HasConstraintName("FK__UsuarioVu__IdVue__4CA06362");
         });
 
         modelBuilder.Entity<Vuelo>(entity =>
         {
-            entity.HasKey(e => e.IdVuelos).HasName("PK__Vuelos__C6AFB43A407EB1EF");
+            entity.HasKey(e => e.IdVuelos).HasName("PK__Vuelos__C6AFB43AEB75F6BD");
 
             entity.Property(e => e.Destino).HasColumnType("decimal(18, 0)");
-            entity.Property(e => e.FechaSalida)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.FechaSalida).HasColumnType("date");
             entity.Property(e => e.NumeroVuelo)
                 .HasMaxLength(4)
                 .IsUnicode(false);
