@@ -1,0 +1,30 @@
+{
+  "numeroVuelo": "1234",
+  "origen": 452,
+  "destino": 124,
+  "fechaSalida": "11102021",
+  "vuelos": [
+    "string"
+  ]
+}
+{
+
+  "nombre": "angel",
+  "apellidoPaterno": "escalona",
+  "apellidoMaterno": "suarez",
+  "email": "angel@gami.com",
+  "userName": "angel",
+  "contrasena": "jaecangel"
+}
+{
+
+  "usuario": {
+    "idUsuario": 2,
+    
+  },
+  "vuelo": {
+    "idVuelo": 2,
+   
+  },
+  
+}
